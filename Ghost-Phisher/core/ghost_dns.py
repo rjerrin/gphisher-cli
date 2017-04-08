@@ -31,13 +31,13 @@ import socket
 import thread
 
 from scapy.all import *
-from PyQt4 import QtCore
+#from PyQt4 import QtCore
 
 
 
-class Ghost_DNS_Server(QtCore.QThread):
+class Ghost_DNS_Server():
     def __init__(self):
-        QtCore.QThread.__init__(self)
+#       QtCore.QThread.__init__(self)
         self.interface = str()              # eth0
         self.single = str()                 # 192.168.0.1 -> Will return single address to all queries
         self.mapping = {}                   # Will return a specific website with a specific Address {'www.google.com','192.168.0.1'}
@@ -73,6 +73,7 @@ class Ghost_DNS_Server(QtCore.QThread):
         packet = str()
 #        if(raw_packet.haslayer(DNSQR) and raw_packet.haslayer(UDP)):
         if(raw_packet.haslayer(DNSQR) and raw_packet.haslayer(UDP)):
+            print raw_packet.show()
             if(raw_packet.getlayer(UDP).dport == 53):
                 mac_info = raw_packet.getlayer(Ether)
                 address_info = raw_packet.getlayer(IP)
@@ -93,9 +94,11 @@ class Ghost_DNS_Server(QtCore.QThread):
 
                 elif(self._dns_mode == "SINGLE"):
                     packet = self.DNS_A_Record(self.single)
-                    print packet.show()
-                    self.inform = [self._src_ip,str()]
-                    self.emit(QtCore.SIGNAL("new client connection"))
+                    #print packet.show()
+                    #sendp(packet,iface = self.interface)
+                    #self.inform = [self._src_ip,str()]
+                    #self.emit(QtCore.SIGNAL("new client connection"))
+                    #print packet.show()
                 else:
                     web_string = re.findall("\.(\S*)\.",self._query_string)[0]
                     for address in self.mapping.keys():
@@ -107,15 +110,18 @@ class Ghost_DNS_Server(QtCore.QThread):
                             break
 
                 self.connection += 1
-                if(packet == str()):
-                    return
+                #if(packet == str()):
+                #    return
                 if(self.control_dns):
-                    sendp(packet,iface = self.interface)
+#                   sendp(packet,iface = self.interface)
+                   sendp(packet)
+                   self.control_dns = False
 
 
     def _socket_responder(self):
         self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)     # Socket response
         self.sock.bind(("",53))
+        print "server started"
         while(self.control_dns):
             self.sock.recvfrom(1024)
         self.sock.close()
@@ -125,6 +131,7 @@ class Ghost_DNS_Server(QtCore.QThread):
     def filter_packet(self):
         thread.start_new_thread(self._socket_responder,())
         sniff(iface = self.interface,prn = self.process_Query,count = 0)
+
         #sniff(iface = self.interface,prn=lambda x: x.show())
 
     def set_DNS_Mode(self,mode):
