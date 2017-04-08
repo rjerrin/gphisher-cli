@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie ie7" lang="en-US">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie ie8" lang="en-US">
+<![endif]-->
+<!--[if !(IE 7) & !(IE 8)]><!-->
+<html lang="en-US">
+<!--<![endif]-->
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>omnix | Notes on FreeBSD,Devops,Cloud Computing,Scripting languages and anything that comes to my mind :)</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://omnix.ml/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="http://dwtnx5xh2jh63.cloudfront.net/wp-content/themes/twentyfourteen/js/html5.js"></script>
+	<![endif]-->
+	<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter43251894 = new Ya.Metrika({
+                    id:43251894,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/43251894" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+	<link rel='dns-prefetch' href='//dwtnx5xh2jh63.cloudfront.net' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link href='https://fonts.gstatic.com' crossorigin rel='preconnect' />
+<link rel="alternate" type="application/rss+xml" title="omnix &raquo; Feed" href="http://omnix.ml/feed/" />
+<link rel="alternate" type="application/rss+xml" title="omnix &raquo; Comments Feed" href="http://omnix.ml/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/omnix.ml\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.3"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='twentyfourteen-lato-css'  href='https://fonts.googleapis.com/css?family=Lato%3A300%2C400%2C700%2C900%2C300italic%2C400italic%2C700italic&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='genericons-css'  href='http://dwtnx5xh2jh63.cloudfront.net/wp-content/themes/twentyfourteen/genericons/genericons.css?ver=3.0.3' type='text/css' media='all' />
+<link rel='stylesheet' id='twentyfourteen-style-css'  href='http://dwtnx5xh2jh63.cloudfront.net/wp-content/themes/twentyfourteen/style.css?ver=4.7.3' type='text/css' media='all' />
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentyfourteen-ie-css'  href='http://dwtnx5xh2jh63.cloudfront.net/wp-content/themes/twentyfourteen/css/ie.css?ver=20131205' type='text/css' media='all' />
+<![endif]-->
+<script type='text/javascript' src='http://omnix.ml/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://omnix.ml/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<link rel='https://api.w.org/' href='http://omnix.ml/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://omnix.ml/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://omnix.ml/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.7.3" />
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #ffffff; }
+</style>
+</head>
+
+<body class="home blog custom-background group-blog masthead-fixed list-view full-width grid">
+<div id="page" class="hfeed site">
+	
+	<header id="masthead" class="site-header" role="banner">
+		<div class="header-main">
+			<h1 class="site-title"><a href="http://omnix.ml/" rel="home">omnix</a></h1>
+
+			<div class="search-toggle">
+				<a href="#search-container" class="screen-reader-text" aria-expanded="false" aria-controls="search-container">Search</a>
+			</div>
+
+			<nav id="primary-navigation" class="site-navigation primary-navigation" role="navigation">
+				<button class="menu-toggle">Primary Menu</button>
+				<a class="screen-reader-text skip-link" href="#content">Skip to content</a>
+				<div id="primary-menu" class="nav-menu"><ul>
+<li class="page_item page-item-139"><a href="http://omnix.ml/porting-kali-linux-tools-to-freebsd/">Porting Kali Linux Tools to Freebsd</a></li>
+</ul></div>
+			</nav>
+		</div>
+
+		<div id="search-container" class="search-box-wrapper hide">
+			<div class="search-box">
+				<form role="search" method="get" class="search-form" action="/login.php"
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form>			</div>
+		</div>
+	</header><!-- #masthead -->
+
+	<div id="main" class="site-main">
+
+<div id="main-content" class="main-content">
+
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+		
+<article id="post-510" class="post-510 post type-post status-publish format-standard hentry category-tools category-uncategorized">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/freebsd/tools/" rel="category tag">Tools</a>, <a href="http://omnix.ml/category/uncategorized/" rel="category tag">Uncategorized</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/docker-mongodb-centos-6/" rel="bookmark">Docker &#8211; mongodb Centos 6</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/docker-mongodb-centos-6/" rel="bookmark"><time class="entry-date" datetime="2017-03-26T06:40:42+00:00">March 26, 2017</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<h5><strong>Docker  Mongodb container on centos &#8211; 6<br />
+</strong></h5>
+<p><strong> # </strong>git clone git@github.com:rjerrin/docker-repo.git<br />
+Cloning into &#8216;docker-repo&#8217;&#8230;<br />
+Warning: Permanently added the RSA host key for IP address &#8216;192.30.253.112&#8217; to the list of known hosts.<br />
+remote: Counting objects: 7, done.<br />
+remote: Compressing objects: 100% (6/6), done.<br />
+remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0<br />
+Receiving objects: 100% (7/7), done.</p>
+<p><strong># </strong>cd docker-repo/mongodb<strong><br />
+</strong></p>
+<p><strong>#  </strong>docker build -t  mongodb:latest <strong> .<br />
+</strong></p>
+<p># docker images<strong><br />
+REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE<br />
+mongodb latest 924fc27575f6 16 minutes ago 566.8 MB<br />
+</strong></p>
+<h2><strong>Run mongodb container</strong></h2>
+<p><strong># </strong>docker run &#8211;name mongodb -p 27017:27017 mongodb:latest</p>
+<p><strong># </strong>docker exec -t -i mongodb bash</p>
+<p><strong>#</strong>mongo<br />
+MongoDB shell version: 2.6.12<br />
+connecting to: test<br />
+Welcome to the MongoDB shell.<br />
+For interactive help, type &#8220;help&#8221;.<br />
+For more comprehensive documentation, see<br />
+http://docs.mongodb.org/<br />
+Questions? Try the support group<br />
+http://groups.google.com/group/mongodb-user<br />
+&gt;</p>
+<p>&nbsp;</p>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+
+<article id="post-501" class="post-501 post type-post status-publish format-standard hentry category-freebsd">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/freebsd/" rel="category tag">Freebsd</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/osversion-1003000-do-not-agree-on-major-version-number/" rel="bookmark">OSVERSION (1003000) do not agree on major version number</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/osversion-1003000-do-not-agree-on-major-version-number/" rel="bookmark"><time class="entry-date" datetime="2017-02-24T11:12:14+00:00">February 24, 2017</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<p>I was getting the following error on a jail(10.2-RELEASE) running on FreeBSD (12.0-CURRENT) host when trying to install packages from ports.</p>
+<p># <strong>make install</strong><br />
+make: &#8220;/usr/ports/Mk/bsd.port.mk&#8221; line 1180: UNAME_r (12.0-CURRENT) and OSVERSION (1003000) do not agree on major version number.</p>
+<p>setting UNAME_r environment variable to the jail&#8217;s version &#8211; 10.2-RELEASE fixed the issue.</p>
+<p><strong># export UNAME_r=10.2-RELEASE</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+
+<article id="post-499" class="post-499 post type-post status-publish format-standard hentry category-freebsd category-tools">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/freebsd/" rel="category tag">Freebsd</a>, <a href="http://omnix.ml/category/freebsd/tools/" rel="category tag">Tools</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/ansible-backup-and-upload-to-aws-s3-freebsd/" rel="bookmark">Ansible &#8211; backup and upload to aws s3 &#8211; FreeBSD</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/ansible-backup-and-upload-to-aws-s3-freebsd/" rel="bookmark"><time class="entry-date" datetime="2017-02-21T17:35:42+00:00">February 21, 2017</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<p><strong>Ansible backup and upload to aws s3</strong></p>
+<p>This was tested on <strong>Freebsd &#8211; 10.3</strong> running ansible 2.2.0 against <strong>Freebsd 10.3 host </strong></p>
+<p>webbkp and dbbackup ansible roles can be found here</p>
+<p># git clone <a href="https://github.com/rjerrin/ansible-roles.git" target="_blank">https://github.com/rjerrin/ansible-roles.git</a></p>
+<p># cd ansible-roles</p>
+<p># cp -R webbkp /usr/local/etc/ansible/roles</p>
+<p># cp -R  dbbackup  /usr/local/etc/ansible/roles</p>
+<p><strong>create a ansible playbook file</strong></p>
+<p>#vim backup.yml</p>
+<p>&#8211; hosts: web<br />
+roles:<br />
+&#8211; webbkp<br />
+&#8211; dbbackup</p>
+<p>vars:<br />
+dbname: &#8220;mydb&#8221;<br />
+dbusr: &#8220;mydbuser&#8221;<br />
+passwd: &#8220;dbpass&#8221;<br />
+dbhost: &#8220;localhost&#8221;<br />
+#directory where mysqldump should be saved<br />
+bkpdir: &#8220;/tmp&#8221;<br />
+ec2_access_key: &#8220;aws-access-key-here&#8221;<br />
+ec2_secret_key: &#8220;aws-secret-key-here&#8221;<br />
+#directory to be archived and to be uploaded to s3<br />
+root_dir: &#8220;/usr/local/www&#8221;<br />
+#name of archive file<br />
+bkpfile: &#8220;/tmp/www-{{ansible_date_time.date}}.tar.gz&#8221;</p>
+<p><strong>Run ansible-playbook</strong></p>
+<p># ansible-playbook backup.yml</p>
+<p>PLAY [web] *********************************************************************</p>
+<p>TASK [setup] *******************************************************************<br />
+ok: [omnix.ml]</p>
+<p>TASK [webbkp : archive web root] ***********************************************<br />
+changed: [omnix.ml]<br />
+[WARNING]: Consider using unarchive module rather than running tar<br />
+TASK [webbkp : create bucket in s3] ********************************************<br />
+ok: [omnix.ml]</p>
+<p>TASK [webbkp : upload backup to s3] ********************************************<br />
+changed: [omnix.ml]</p>
+<p>TASK [webbkp : delete backupfile] *********************************************<br />
+changed: [omnix.ml]</p>
+<p>TASK [dbbackup : install python mysql module] **********************************<br />
+ok: [omnix.ml]</p>
+<p>TASK [dbbackup : mysqldump] ****************************************************<br />
+changed: [omnix.ml]</p>
+<p>TASK [dbbackup : create bucket in s3] ******************************************<br />
+ok: [omnix.ml]</p>
+<p>TASK [dbbackup : upload backup to s3t] *****************************************<br />
+changed: [omnix.ml]</p>
+<p>TASK [dbbackup : delete backup file] *******************************************<br />
+changed: [omnix.ml]</p>
+<p>PLAY RECAP *********************************************************************<br />
+omnix.ml : ok=10 changed=6 unreachable=0 failed=0</p>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+
+<article id="post-493" class="post-493 post type-post status-publish format-standard hentry category-gnulinux">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/gnulinux/" rel="category tag">Gnu/Linux</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/kernel-compile-slacko-puppy-linux/" rel="bookmark">Kernel Compile &#8211; Slacko Puppy Linux</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/kernel-compile-slacko-puppy-linux/" rel="bookmark"><time class="entry-date" datetime="2017-02-21T14:00:09+00:00">February 21, 2017</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<p><strong>Install devx package from</strong>   <a href="http://puppylinux.org/wikka/devx" target="_blank">http://puppylinux.org/wikka/devx</a></p>
+<p><strong>Download latest kernel from linux.org</strong></p>
+<p style="text-align: left;"><strong># cd /usr/src</strong><br />
+<strong> #  wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux4.10.tar.xz</strong><br />
+<strong> #  xz -d linux-4.10.tar.xz</strong><br />
+<strong> #  tar -xvf linux-4.10.tar</strong><br />
+<strong> # cd linux-4.10</strong><br />
+<strong> #make clean &amp;&amp; make mrproper</strong></p>
+<p><strong>Copy config file of currently running kernel</strong></p>
+<p><strong># zcat /proc/config.gz &gt; .config</strong></p>
+<p><strong>#make menuconfig</strong></p>
+<p><img class="alignnone  wp-image-495" src="http://dwtnx5xh2jh63.cloudfront.net/wp-content/uploads/2017/02/Screenshot2.png" alt="" width="626" height="334" /></p>
+<p>Load currently running kernel configuration, Select LOAD option and enter .config and select ok</p>
+<p><img class="alignnone size-full wp-image-496" src="http://dwtnx5xh2jh63.cloudfront.net/wp-content/uploads/2017/02/Screenshot3.png" alt="" width="1366" height="729" /></p>
+<p><img class="alignnone size-full wp-image-497" src="http://dwtnx5xh2jh63.cloudfront.net/wp-content/uploads/2017/02/Screenshot4.png" alt="" width="1366" height="729" /></p>
+<p>make changes to configuration if needed ,select save and then exit</p>
+<p><strong># make</strong><br />
+<strong># make modules_install</strong></p>
+<p><strong>#cp .config /boot/config-4.10</strong><br />
+<strong># cp System.map /boot/System.map-4.10</strong><br />
+<strong># cp arch/x86/boot/bzImage /boot/vmlinuz-4.10</strong></p>
+<p><strong>Add entry in grub for the new kernel</strong></p>
+<p><strong>#vi /menu.lst</strong></p>
+<p>#Custom kernel<br />
+title Slacko puppy 6.3.2 kernel-4.10<br />
+uuid ae54aef2-952d-4044-8c9a-69c111aa9d6a<br />
+kernel /boot/vmlinuz-4.10 root=/dev/sdb1 ro</p>
+<p>Reboot and choose the new kernel from the boot menu</p>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+
+<article id="post-484" class="post-484 post type-post status-publish format-standard hentry category-scripts">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/scripts/" rel="category tag">Scripts</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/ruby-send-mail-using-gmail-gem/" rel="bookmark">Ruby &#8211; send mail using gmail gem</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/ruby-send-mail-using-gmail-gem/" rel="bookmark"><time class="entry-date" datetime="2017-01-14T14:57:39+00:00">January 14, 2017</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<p><strong>Send mail using ruby gmail gem (</strong> <a href="https://github.com/dcparker/ruby-gmail" target="_blank">https://github.com/dcparker/ruby-gmail</a><strong>)</strong></p>
+<p><strong>Example script :</strong></p>
+<p>#!/usr/bin/ruby</p>
+<p>require &#8216;gmail&#8217;<br />
+EMAILS = Array.new<br />
+oauth=&#8221;oauthkey&#8221;<br />
+gmail = Gmail.connect(:xoauth2, &#8216;user@gmail.com&#8217;, oauth)<br />
+gmail.inbox.emails( :after =&gt; Date.parse(&#8220;2017-01-10&#8243;), :from =&gt; &#8216;*@domain.com&#8217; ).each do |email|<br />
+subject = email.subject<br />
+next if subject =~ /walk/i<br />
+email.message.body.to_s.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i).each do |x|<br />
+next if x =~ /naukri/<br />
+next if EMAILS.include?(x)<br />
+EMAILS &lt;&lt; x<br />
+end<br />
+subject = subject.gsub(/job|\||urgent|opening|for|resume/i,&#8221;)<br />
+header = &#8220;Resume for&#8221; + &#8221; &#8221; + &#8220;#{subject}&#8221;<br />
+puts &#8220;#{EMAILS[0]}, #{subject}&#8221;<br />
+gmail.deliver do<br />
+to &#8220;#{EMAILS[0]}&#8221;<br />
+subject &#8220;#{header}&#8221;<br />
+text_part do<br />
+body &#8220;Please see my attached resume for &#8211; #{subject}&#8221;<br />
+end<br />
+add_file &#8220;/home/user/Resume.pdf&#8221;<br />
+end<br />
+EMAILS.clear<br />
+end</p>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+
+<article id="post-482" class="post-482 post type-post status-publish format-standard hentry category-uncategorized">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/uncategorized/" rel="category tag">Uncategorized</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/dnsmap-domain-name-brute-forcing-freebsd/" rel="bookmark">dnsmap &#8211; domain name  brute forcing &#8211; FreeBSD</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/dnsmap-domain-name-brute-forcing-freebsd/" rel="bookmark"><time class="entry-date" datetime="2017-01-07T03:30:35+00:00">January 7, 2017</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<h5></h5>
+<p># cd /usr/ports/dns/dnsmap</p>
+<p># make install clean</p>
+<p># dnsmap<br />
+dnsmap 0.30 &#8211; DNS Network Mapper by pagvac (gnucitizen.org)</p>
+<p>usage: dnsmap &lt;target-domain&gt; [options]<br />
+options:<br />
+-w &lt;wordlist-file&gt;<br />
+-r &lt;regular-results-file&gt;<br />
+-c &lt;csv-results-file&gt;<br />
+-d &lt;delay-millisecs&gt;<br />
+-i &lt;ips-to-ignore&gt; (useful if you&#8217;re obtaining false positives)</p>
+<p>e.g.:<br />
+dnsmap target-domain.foo<br />
+dnsmap target-domain.foo -w yourwordlist.txt -r /tmp/domainbf_results.txt<br />
+dnsmap target-fomain.foo -r /tmp/ -d 3000<br />
+dnsmap target-fomain.foo -r ./domainbf_results.txt</p>
+<p>&nbsp;</p>
+<p># dnsmap google.com<br />
+dnsmap 0.30 &#8211; DNS Network Mapper by pagvac (gnucitizen.org)</p>
+<p>[+] searching (sub)domains for google.com using built-in wordlist<br />
+[+] using maximum random delay of 10 millisecond(s) between requests</p>
+<p>accounts.google.com<br />
+IPv6 address #1: 2404:6800:4007:807::200d</p>
+<p>accounts.google.com<br />
+IP address #1: 216.58.197.45</p>
+<p>admin.google.com<br />
+IPv6 address #1: 2404:6800:4007:807::200e</p>
+<p>admin.google.com<br />
+IP address #1: 216.58.197.46</p>
+<p>ap.google.com<br />
+IPv6 address #1: 2404:6800:4007:807::2004</p>
+<p>ap.google.com<br />
+IP address #1: 216.58.197.36</p>
+<p>billing.google.com<br />
+IPv6 address #1: 2404:6800:4007:807::200e</p>
+<p>billing.google.com<br />
+IP address #1: 216.58.197.46</p>
+<p>blog.google.com<br />
+IPv6 address #1: 2404:6800:4007:807::2009</p>
+<p>blog.google.com<br />
+IP address #1: 216.58.197.41</p>
+<p>catalog.google.com<br />
+IPv6 address #1: 2404:6800:4007:807::200e</p>
+<p>catalog.google.com<br />
+IP address #1: 216.58.197.46</p>
+<p>catalogue.google.com<br />
+IPv6 address #1: 2404:6800:4007:807::200e</p>
+<p>catalogue.google.com<br />
+IP address #1: 216.58.197.46</p>
+<p>classroom.google.com<br />
+IPv6 address #1: 2404:6800:4007:807::200e</p>
+<p>classroom.google.com<br />
+IP address #1: 216.58.197.46</p>
+<p>d.google.com<br />
+IPv6 address #1: 2404:6800:4007:807::200e</p>
+<p>&nbsp;</p>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+
+<article id="post-479" class="post-479 post type-post status-publish format-standard hentry category-tools">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/freebsd/tools/" rel="category tag">Tools</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/nmap-discover-live-hosts/" rel="bookmark">nmap discover live hosts</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/nmap-discover-live-hosts/" rel="bookmark"><time class="entry-date" datetime="2017-01-04T16:48:42+00:00">January 4, 2017</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<pre><code>$ nmap  -sP  192.168.100.0/24
+$ nmap  -P0 192.168.100.0/24
+
+</code></pre>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+
+<article id="post-477" class="post-477 post type-post status-publish format-standard hentry category-tools">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/freebsd/tools/" rel="category tag">Tools</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/virtualbox-start-vm-command-line/" rel="bookmark">Virtualbox start vm command line</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/virtualbox-start-vm-command-line/" rel="bookmark"><time class="entry-date" datetime="2017-01-04T16:24:04+00:00">January 4, 2017</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<p><strong>[root]- </strong>VBoxManage startvm linux &#8211;typeheadless</p>
+<p>Waiting for VM &#8220;linux&#8221; to power on&#8230;<br />
+VM &#8220;linux&#8221; has been successfully started.</p>
+<p>&nbsp;</p>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+
+<article id="post-465" class="post-465 post type-post status-publish format-standard hentry category-freebsd">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/freebsd/" rel="category tag">Freebsd</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/freebsd-ansible-wordpress-install/" rel="bookmark">FreeBSD &#8211; Ansible &#8211; nginx + php-fpm + wordpress  install</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/freebsd-ansible-wordpress-install/" rel="bookmark"><time class="entry-date" datetime="2016-12-30T15:39:55+00:00">December 30, 2016</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<p><a href="http://omnix.ml/ansible-server-freebsd/" target="_blank">Install Ansible</a></p>
+<p>$ cd  <strong> /usr/local/etc/ansible </strong></p>
+<p>$ mkdir -pv   <strong> /usr/local/etc/ansible/roles </strong></p>
+<p>$  git clone  git@github.com:rjerrin/ansible-roles.git</p>
+<p>$ cp -R ansible-roles/wordpress  <strong> /usr/local/etc/ansible/roles</strong></p>
+<p>Edit  <strong>/usr/local/etc/ansible/roles/wordpress/vars/main.yml  </strong>according to your setup.</p>
+<p>$ vim /usr/local/etc/ansible/wp.yml</p>
+<p>&#8211; hosts: 192.168.100.17<br />
+roles:<br />
+&#8211; wordpress</p>
+<p># ansible-playbook wp.yml</p>
+<p>PLAY [192.168.100.17] **********************************************************</p>
+<p>TASK [setup] *******************************************************************<br />
+ok: [192.168.100.17]</p>
+<p>TASK [wordpress : install nginx] ***********************************************<br />
+ok: [192.168.100.17]</p>
+<p>TASK [wordpress : install php56] ***********************************************<br />
+ok: [192.168.100.17]</p>
+<p>TASK [wordpress : install php56-extensions] ************************************<br />
+ok: [192.168.100.17]</p>
+<p>TASK [wordpress : install wget] ************************************************<br />
+ok: [192.168.100.17]</p>
+<p>TASK [wordpress : gtar install] ************************************************<br />
+ok: [192.168.100.17]</p>
+<p>TASK [wordpress : Create directories] ******************************************<br />
+changed: [192.168.100.17]</p>
+<p>TASK [wordpress : nginx ssl directories] ***************************************<br />
+changed: [192.168.100.17]</p>
+<p>TASK [wordpress : copy ssl cert] ***********************************************<br />
+changed: [192.168.100.17]</p>
+<p>TASK [wordpress : copy ssl key] ************************************************<br />
+changed: [192.168.100.17]</p>
+<p>TASK [wordpress : configure php-fpm] *******************************************<br />
+ok: [192.168.100.17]</p>
+<p>TASK [wordpress : configure nginx] *********************************************<br />
+changed: [192.168.100.17]</p>
+<p>TASK [wordpress : configure php.ini] *******************************************<br />
+ok: [192.168.100.17]</p>
+<p>TASK [wordpress : wp install] **************************************************<br />
+changed: [192.168.100.17]</p>
+<p>TASK [wordpress : delete readme.html] ******************************************<br />
+changed: [192.168.100.17]</p>
+<p>TASK [wordpress : enable  php-fpm service] *************************************<br />
+ok: [192.168.100.17]</p>
+<p>TASK [wordpress : enable php-fpm and nginx] ************************************<br />
+ok: [192.168.100.17]</p>
+<p>RUNNING HANDLER [wordpress : restart nginx] ************************************<br />
+changed: [192.168.100.17]</p>
+<p>PLAY RECAP *********************************************************************<br />
+192.168.100.17             : ok=18   changed=8    unreachable=0    failed=0</p>
+<p>&nbsp;</p>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+
+<article id="post-415" class="post-415 post type-post status-publish format-standard hentry category-tools">
+	
+	<header class="entry-header">
+				<div class="entry-meta">
+			<span class="cat-links"><a href="http://omnix.ml/category/freebsd/tools/" rel="category tag">Tools</a></span>
+		</div>
+		<h1 class="entry-title"><a href="http://omnix.ml/metasploit-through-tor/" rel="bookmark">Metasploit through Tor</a></h1>
+		<div class="entry-meta">
+			<span class="entry-date"><a href="http://omnix.ml/metasploit-through-tor/" rel="bookmark"><time class="entry-date" datetime="2016-12-09T20:16:28+00:00">December 9, 2016</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="http://omnix.ml/author/kalabsd/" rel="author">kalabsd</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+		<div class="entry-content">
+		<p><strong>Set socks5  in  msf  console </strong></p>
+<p>192.168.100.3 -&gt; Tor host</p>
+<p>9100 -&gt; Tor Port</p>
+<p>msf&gt; set Proxies socks5:192.168.100.3:9100</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+	</div><!-- .entry-content -->
+	
+	</article><!-- #post-## -->
+	<nav class="navigation paging-navigation" role="navigation">
+		<h1 class="screen-reader-text">Posts navigation</h1>
+		<div class="pagination loop-pagination">
+			<span class='page-numbers current'>1</span>
+<a class='page-numbers' href='http://omnix.ml/page/2/'>2</a>
+<span class="page-numbers dots">&hellip;</span>
+<a class='page-numbers' href='http://omnix.ml/page/4/'>4</a>
+<a class="next page-numbers" href="http://omnix.ml/page/2/">Next &rarr;</a>		</div><!-- .pagination -->
+	</nav><!-- .navigation -->
+	
+		</div><!-- #content -->
+	</div><!-- #primary -->
+	</div><!-- #main-content -->
+
+<div id="secondary">
+		<h2 class="site-description">Notes on FreeBSD,Devops,Cloud Computing,Scripting languages and anything that comes to my mind :)</h2>
+	
+	
+		<div id="primary-sidebar" class="primary-sidebar widget-area" role="complementary">
+		<aside id="search-2" class="widget widget_search"><form role="search" method="get" class="search-form" action="/login.php"
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form></aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h1 class="widget-title">Recent Posts</h1>		<ul>
+					<li>
+				<a href="http://omnix.ml/docker-mongodb-centos-6/">Docker &#8211; mongodb Centos 6</a>
+						</li>
+					<li>
+				<a href="http://omnix.ml/osversion-1003000-do-not-agree-on-major-version-number/">OSVERSION (1003000) do not agree on major version number</a>
+						</li>
+					<li>
+				<a href="http://omnix.ml/ansible-backup-and-upload-to-aws-s3-freebsd/">Ansible &#8211; backup and upload to aws s3 &#8211; FreeBSD</a>
+						</li>
+					<li>
+				<a href="http://omnix.ml/kernel-compile-slacko-puppy-linux/">Kernel Compile &#8211; Slacko Puppy Linux</a>
+						</li>
+					<li>
+				<a href="http://omnix.ml/ruby-send-mail-using-gmail-gem/">Ruby &#8211; send mail using gmail gem</a>
+						</li>
+				</ul>
+		</aside>		<aside id="recent-comments-2" class="widget widget_recent_comments"><h1 class="widget-title">Recent Comments</h1><ul id="recentcomments"></ul></aside><aside id="archives-2" class="widget widget_archive"><h1 class="widget-title">Archives</h1>		<ul>
+			<li><a href='http://omnix.ml/2017/03/'>March 2017</a></li>
+	<li><a href='http://omnix.ml/2017/02/'>February 2017</a></li>
+	<li><a href='http://omnix.ml/2017/01/'>January 2017</a></li>
+	<li><a href='http://omnix.ml/2016/12/'>December 2016</a></li>
+	<li><a href='http://omnix.ml/2016/11/'>November 2016</a></li>
+	<li><a href='http://omnix.ml/2016/10/'>October 2016</a></li>
+	<li><a href='http://omnix.ml/2016/05/'>May 2016</a></li>
+	<li><a href='http://omnix.ml/2016/04/'>April 2016</a></li>
+	<li><a href='http://omnix.ml/2016/03/'>March 2016</a></li>
+	<li><a href='http://omnix.ml/2011/03/'>March 2011</a></li>
+	<li><a href='http://omnix.ml/2011/02/'>February 2011</a></li>
+	<li><a href='http://omnix.ml/2010/10/'>October 2010</a></li>
+	<li><a href='http://omnix.ml/2010/08/'>August 2010</a></li>
+	<li><a href='http://omnix.ml/2010/03/'>March 2010</a></li>
+	<li><a href='http://omnix.ml/2009/04/'>April 2009</a></li>
+		</ul>
+		</aside><aside id="categories-2" class="widget widget_categories"><h1 class="widget-title">Categories</h1>		<ul>
+	<li class="cat-item cat-item-2"><a href="http://omnix.ml/category/aws/" >Aws</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="http://omnix.ml/category/freebsd/" >Freebsd</a>
+</li>
+	<li class="cat-item cat-item-11"><a href="http://omnix.ml/category/gnulinux/" title="Admin noted on Gnu/Linux">Gnu/Linux</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://omnix.ml/category/scripts/" >Scripts</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://omnix.ml/category/servers/" >Servers</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="http://omnix.ml/category/freebsd/tools/" >Tools</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://omnix.ml/category/uncategorized/" >Uncategorized</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://omnix.ml/category/web-servers/" title="Notes related to Web Servers.">Web Servers</a>
+</li>
+		</ul>
+</aside>	</div><!-- #primary-sidebar -->
+	</div><!-- #secondary -->
+
+		</div><!-- #main -->
+
+		<footer id="colophon" class="site-footer" role="contentinfo">
+
+			
+			<div class="site-info">
+								<a href="https://wordpress.org/">Proudly powered by WordPress</a>
+			</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- #page -->
+
+	<script type='text/javascript' src='http://dwtnx5xh2jh63.cloudfront.net/wp-content/themes/twentyfourteen/js/functions.js?ver=20150315'></script>
+<script type='text/javascript' src='http://omnix.ml/wp-includes/js/wp-embed.min.js?ver=4.7.3'></script>
+</body>
+</html>
